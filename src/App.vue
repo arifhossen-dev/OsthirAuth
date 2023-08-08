@@ -17,11 +17,20 @@ const errorMsg = reactive({
   confirmPass: ''
 })
 
+/**
+ * After getting info from user
+ * checking validation 
+ * if everything is ok then
+ * Encoding the password using btoa() encoder
+ * then storing it in localStore
+ * and showing welcome message 
+ */
 function register() {
   isRejectToLogin.value = false
   resetErrorMsg()
   if (isRegister.value && data.username && data.password) {
     if (data.password === confirmPass.value) {
+      data.password = btoa(data.password)
       localStorage.setItem('authInfo', JSON.stringify(data))
       isAuth.value = true
     }
@@ -35,6 +44,16 @@ function register() {
 
 }
 
+/**
+ * On user login request
+ * checking for validation
+ *  then fetching data from storage
+ *  then decoding the password
+ * check if given credentials match
+ * then make auth true
+ *    and showing welcome message 
+ * Or throw an rejection
+ */
 function signIn() {
   validation()
 
@@ -47,7 +66,9 @@ function signIn() {
   if (data.username && data.password) {
 
     let auth = JSON.parse(localStorage.getItem('authInfo'))
-    if (data.username === auth?.username && data.password === auth?.password) {
+    const decodedPassword = atob(auth?.password)
+
+    if (data.username === auth?.username && data.password === decodedPassword) {
       isAuth.value = true
     } else {
       isRejectToLogin.value = true
@@ -69,6 +90,11 @@ function resetErrorMsg() {
   errorMsg.confirmPass = ''
 }
 
+/**
+ * on user logout request 
+ * resetting everything as default
+ * and make auth false
+ */
 function logout() {
   isAuth.value = false
   resetErrorMsg()
@@ -92,7 +118,7 @@ function logout() {
     </div>
 
 
-    <div class="flex flex-col items-center justify-center w-1/2 bg-gray-200">
+    <div class="flex flex-col items-center justify-center w-1/2 bg-gradient-to-r from-rose-100 to-teal-100">
 
       <h2 class="mb-5 text-xl">Login or register</h2>
 
@@ -101,7 +127,7 @@ function logout() {
 
           <!-- Alert message -->
           <div v-show="isRejectToLogin" class="px-5 py-2 mb-4 bg-red-100 border border-red-200 rounded-lg">
-            ❗ Please provide valid credentials or <span @click="register"
+            ❗ Please provide valid credentials or <span @click.prevent="register"
               class="font-bold text-green-600 cursor-pointer">Register</span>
           </div>
 
@@ -146,7 +172,7 @@ function logout() {
 
           <!-- Form submission buttons -->
           <div class="flex items-center justify-between mt-2">
-            <button @click="signIn" class="px-4 py-2 font-bold focus:outline-none focus:shadow-outline"
+            <button @click.prevent="signIn" class="px-4 py-2 font-bold focus:outline-none focus:shadow-outline"
               :class="!isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
               type="button">
               Sign In
@@ -156,7 +182,7 @@ function logout() {
 
             <button class="inline-block px-4 py-2 font-bold"
               :class="isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
-              @click="register">
+              @click.prevent="register">
               Register
             </button>
           </div>
@@ -173,28 +199,42 @@ function logout() {
 
   <!-- Welcome Section for valid user -->
   <section v-show="isAuth">
-    <div class="flex flex-col items-center justify-center h-screen p-5 mx-auto rounded-lg max-w-7xl bg-slate-100">
-      <h2 class="text-4xl font-bold">
-        Welcome! <span class="text-green-600">{{ data.username }}</span>, To Osthir ✔ Theater
-      </h2>
+    <div
+      class="flex items-center justify-center h-screen p-5 mx-auto rounded-lg bg-gradient-to-r from-rose-100 to-teal-100">
+      <div class="flex flex-col items-center p-32 bg-white/70 rounded-3xl">
+        <h2 class="font-bold text-center text-7xl">
+          Welcome!
+          <span class="text-green-600">
+            {{ data.username }}
+          </span>,
 
-      <button
-        class="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white border border-yellow-400 rounded mt-14 hover:bg-white group"
-        @click="logout">
+          <span class="flex justify-center my-4">
+            To
+          </span>
+          
+          <span class="inline-flex px-3 pt-2 pb-4 bg-yellow-400 rounded-lg">
+            The Osthir 🎦 Theater
+          </span>
+        </h2>
 
-        <span
-          class="w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-        <span
-          class="relative flex w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
-          Logout
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-            class="w-6 h-6 ml-3">
-            <path stroke-linecap="round" stroke-linejoin="round"
-              d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-          </svg>
+        <button
+          class="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white border border-yellow-400 rounded mt-14 hover:bg-white group"
+          @click="logout">
 
-        </span>
-      </button>
+          <span
+            class="w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+          <span
+            class="relative flex w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+            Logout
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="w-6 h-6 ml-3">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+            </svg>
+
+          </span>
+        </button>
+      </div>
 
     </div>
   </section>
