@@ -125,8 +125,8 @@ function logout() {
       <div class="flex flex-col items-center justify-center w-1/2 bg-gradient-to-r from-rose-100 to-teal-100">
 
 
-        <div class="w-full max-w-md">
-          <form class="px-8 pt-6 pb-8 mb-4 bg-white shadow-md rounded-2xl">
+        <div style="border-radius: 40px;" class="w-full max-w-lg p-5 border-[20px] bg-white/40 rounded-2xl">
+          <form class="px-8 pt-6 pb-8 shadow-md bg-white/70 rounded-2xl">
             <div class="flex justify-center">
               <h2 class="inline-flex px-3 mb-5 text-xl font-bold text-center text-gray-900 border-b-4 border-yellow-300">
                 Login or register</h2>
