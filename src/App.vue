@@ -121,10 +121,13 @@ function logout() {
 
       <div class="flex flex-col items-center justify-center w-1/2 bg-gradient-to-r from-rose-100 to-teal-100">
 
-        <h2 class="mb-5 text-xl">Login or register</h2>
 
         <div class="w-full max-w-md">
-          <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
+          <form class="px-8 pt-6 pb-8 mb-4 bg-white shadow-md rounded-2xl">
+            <div class="flex justify-center">
+              <h2 class="inline-flex px-3 mb-5 text-xl font-bold text-center text-gray-900 border-b-4 border-yellow-300">
+                Login or register</h2>
+            </div>
 
             <!-- Alert message -->
             <div v-show="isRejectToLogin" class="px-5 py-2 mb-4 bg-red-100 border border-red-200 rounded-lg">
@@ -173,18 +176,39 @@ function logout() {
 
             <!-- Form submission buttons -->
             <div class="flex items-center justify-between mt-2">
-              <button @click.prevent="signIn" class="px-4 py-2 font-bold focus:outline-none focus:shadow-outline"
-                :class="!isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
-                type="button">
-                Sign In
+
+              <button
+                class="relative inline-flex items-center justify-start px-6 py-2 overflow-hidden font-medium transition-all border border-yellow-400 rounded hover:bg-white group"
+                :class="!isRegister ? 'bg-yellow-300' : 'bg-white'" @click.prevent="signIn">
+
+                <span class=""
+                  :class="!isRegister
+                    ? 'w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0'
+                    : 'w-48 h-48 rounded rotate-[40deg] bg-yellow-300 absolute top-0 right-0 translate-x-full ease-out duration-500 transition-all -translate-y-full mt-9 mr-9 group-hover:mr-0 group-hover:mt-32 group-hover:translate-x-0'"></span>
+
+                <span class="relative flex w-full text-left text-black transition-colors duration-300 ease-in-out"
+                  :class="!isRegister ? 'group-hover:text-white' : 'group-hover:text-black'">
+                  Sign In
+
+                </span>
               </button>
 
               <span class="font-bold text-gray-700">OR</span>
 
-              <button class="inline-block px-4 py-2 font-bold"
-                :class="isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
-                @click.prevent="register">
-                Register
+              <button
+                class="relative inline-flex items-center justify-start px-6 py-2 overflow-hidden font-medium transition-all border border-yellow-400 rounded hover:bg-white group"
+                :class="isRegister ? 'bg-yellow-300' : 'bg-white'" @click.prevent="register">
+
+                <span class=""
+                  :class="isRegister
+                    ? 'w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0'
+                    : 'w-48 h-48 rounded rotate-[40deg] bg-yellow-300 absolute top-0 right-0 translate-x-full ease-out duration-500 transition-all -translate-y-full mt-9 mr-9 group-hover:mr-0 group-hover:mt-32 group-hover:translate-x-0'"></span>
+
+                <span class="relative flex w-full text-left text-black transition-colors duration-300 ease-in-out"
+                  :class="isRegister ? 'group-hover:text-white' : 'group-hover:text-black'">
+                  Register
+
+                </span>
               </button>
             </div>
 
