@@ -20,10 +20,10 @@ const errorMsg = reactive({
 /**
  * After getting info from user
  * checking validation 
- * if everything is ok then
- * Encoding the password using btoa() encoder
- * then storing it in localStore
- * and showing welcome message 
+ * ✅ if everything is ok then
+ * 🔑 Encoding the password using btoa() encoder
+ * 🏬 then storing it in localStore
+ * ✅ and showing welcome message 
  */
 function register() {
   isRejectToLogin.value = false
@@ -47,12 +47,12 @@ function register() {
 /**
  * On user login request
  * checking for validation
- *  then fetching data from storage
- *  then decoding the password
- * check if given credentials match
- * then make auth true
- *    and showing welcome message 
- * Or throw an rejection
+ *  🥽 then fetching data from storage
+ *  🔑 then decoding the password
+ *  🔑 check if given credentials match
+ *  👌  then make auth true
+ *  🙏 and showing welcome message 
+ *  ❌ Or throw an rejection
  */
 function signIn() {
   validation()
@@ -76,6 +76,9 @@ function signIn() {
   }
 }
 
+/**
+ * The easiest validation I had ever done 😁
+ */
 function validation() {
   errorMsg.username = data.username ? '' : "Username filed is required!"
   errorMsg.password = data.password ? '' : "Password filed is required!"
