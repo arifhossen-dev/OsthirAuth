@@ -66,7 +66,7 @@ function signIn() {
   if (data.username && data.password) {
 
     let auth = JSON.parse(localStorage.getItem('authInfo'))
-    const decodedPassword = atob(auth?.password)
+    const decodedPassword = atob(auth?.password??'')
 
     if (data.username === auth?.username && data.password === decodedPassword) {
       isAuth.value = true
