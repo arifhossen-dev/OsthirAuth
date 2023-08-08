@@ -66,7 +66,7 @@ function signIn() {
   if (data.username && data.password) {
 
     let auth = JSON.parse(localStorage.getItem('authInfo'))
-    const decodedPassword = atob(auth?.password??'')
+    const decodedPassword = atob(auth?.password ?? '')
 
     if (data.username === auth?.username && data.password === decodedPassword) {
       isAuth.value = true
@@ -108,135 +108,137 @@ function logout() {
 </script>
 
 <template>
-  <section v-show="!isAuth" class="flex w-full min-h-screen">
+  <div class="relative">
+    <section v-show="!isAuth" class="flex w-full min-h-screen">
 
-    <div class="w-1/2"
-      style="background-image: url(https://images.unsplash.com/photo-1591167636260-ab0670b955b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80); background-repeat: no-repeat; background-size: cover;">
-      <div class="mt-10 mb-5 border-4 border-l-0 bg-gray-700/60 border-white/50 rounded-r-3xl w-72">
-        <h1 class="py-6 ml-10 text-6xl font-bold text-yellow-500">Osthir!</h1>
-      </div>
-    </div>
-
-
-    <div class="flex flex-col items-center justify-center w-1/2 bg-gradient-to-r from-rose-100 to-teal-100">
-
-      <h2 class="mb-5 text-xl">Login or register</h2>
-
-      <div class="w-full max-w-md">
-        <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
-
-          <!-- Alert message -->
-          <div v-show="isRejectToLogin" class="px-5 py-2 mb-4 bg-red-100 border border-red-200 rounded-lg">
-            ❗ Please provide valid credentials or <span @click.prevent="register"
-              class="font-bold text-green-600 cursor-pointer">Register</span>
-          </div>
-
-          <div class="mb-4">
-            <label class="block mb-2 text-sm font-bold" :class="errorMsg.username ? 'text-red-400' : 'text-gray-700'"
-              for="username">
-              Username
-            </label>
-            <input id="username"
-              class="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-              :class="errorMsg.username ? 'border-red-400' : 'text-gray-700'" v-model="data.username" type="text"
-              placeholder="Username">
-
-            <p v-show="errorMsg.username" class="text-red-400">{{ errorMsg.username }}</p>
-          </div>
-
-          <div class="mb-4">
-            <label class="block mb-2 text-sm font-bold" :class="errorMsg.password ? 'text-red-400' : 'text-gray-700'"
-              for="password">
-              Password
-            </label>
-            <input id="password"
-              class="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-              :class="errorMsg.password ? 'border-red-400' : 'text-gray-700'" type="password" v-model="data.password"
-              placeholder="******************">
-
-            <p v-show="errorMsg.password" class="text-red-400">{{ errorMsg.password }}</p>
-          </div>
-
-          <div v-show="isRegister" class="mb-4">
-            <label class="block mb-2 text-sm font-bold" :class="errorMsg.confirmPass ? 'text-red-400' : 'text-gray-700'"
-              for="confirmPassword">
-              Confirm Password
-            </label>
-            <input
-              class="w-full px-3 py-2 mb-3 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-              :class="errorMsg.confirmPass ? 'border-red-400' : 'text-gray-700'" id="confirmPassword" type="password"
-              v-model="confirmPass" placeholder="******************">
-
-            <p v-show="errorMsg.confirmPass" class="text-red-400">{{ errorMsg.confirmPass }}</p>
-          </div>
-
-          <!-- Form submission buttons -->
-          <div class="flex items-center justify-between mt-2">
-            <button @click.prevent="signIn" class="px-4 py-2 font-bold focus:outline-none focus:shadow-outline"
-              :class="!isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
-              type="button">
-              Sign In
-            </button>
-
-            <span class="font-bold text-gray-700">OR</span>
-
-            <button class="inline-block px-4 py-2 font-bold"
-              :class="isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
-              @click.prevent="register">
-              Register
-            </button>
-          </div>
-
-        </form>
-        <p class="text-xs text-center text-gray-500">
-          &copy;2020 Acme Corp. All rights reserved.
-        </p>
-      </div>
-    </div>
-
-  </section>
-
-
-  <!-- Welcome Section for valid user -->
-  <section v-show="isAuth">
-    <div
-      class="flex items-center justify-center h-screen p-5 mx-auto rounded-lg bg-gradient-to-r from-rose-100 to-teal-100">
-      <div class="flex flex-col items-center p-32 bg-white/70 rounded-3xl">
-        <h2 class="font-bold text-center text-7xl">
-          Welcome!
-          <span class="text-green-600">
-            {{ data.username }}
-          </span>,
-
-          <span class="flex justify-center my-4">
-            To
-          </span>
-          
-          <span class="inline-flex px-3 pt-2 pb-4 bg-yellow-400 rounded-lg">
-            The Osthir 🎦 Theater
-          </span>
-        </h2>
-
-        <button
-          class="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white border border-yellow-400 rounded mt-14 hover:bg-white group"
-          @click="logout">
-
-          <span
-            class="w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-          <span
-            class="relative flex w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
-            Logout
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="w-6 h-6 ml-3">
-              <path stroke-linecap="round" stroke-linejoin="round"
-                d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-            </svg>
-
-          </span>
-        </button>
+      <div class="w-1/2"
+        style="background-image: url(https://images.unsplash.com/photo-1591167636260-ab0670b955b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80); background-repeat: no-repeat; background-size: cover;">
+        <div class="mt-10 mb-5 border-4 border-l-0 bg-gray-700/60 border-white/50 rounded-r-3xl w-72">
+          <h1 class="py-6 ml-10 text-6xl font-bold text-yellow-500">Osthir!</h1>
+        </div>
       </div>
 
-    </div>
-  </section>
+
+      <div class="flex flex-col items-center justify-center w-1/2 bg-gradient-to-r from-rose-100 to-teal-100">
+
+        <h2 class="mb-5 text-xl">Login or register</h2>
+
+        <div class="w-full max-w-md">
+          <form class="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
+
+            <!-- Alert message -->
+            <div v-show="isRejectToLogin" class="px-5 py-2 mb-4 bg-red-100 border border-red-200 rounded-lg">
+              ❗ Please provide valid credentials or <span @click.prevent="register"
+                class="font-bold text-green-600 cursor-pointer">Register</span>
+            </div>
+
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-bold" :class="errorMsg.username ? 'text-red-400' : 'text-gray-700'"
+                for="username">
+                Username
+              </label>
+              <input id="username"
+                class="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                :class="errorMsg.username ? 'border-red-400' : 'text-gray-700'" v-model="data.username" type="text"
+                placeholder="Username">
+
+              <p v-show="errorMsg.username" class="text-red-400">{{ errorMsg.username }}</p>
+            </div>
+
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-bold" :class="errorMsg.password ? 'text-red-400' : 'text-gray-700'"
+                for="password">
+                Password
+              </label>
+              <input id="password"
+                class="w-full px-3 py-2 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                :class="errorMsg.password ? 'border-red-400' : 'text-gray-700'" type="password" v-model="data.password"
+                placeholder="******************">
+
+              <p v-show="errorMsg.password" class="text-red-400">{{ errorMsg.password }}</p>
+            </div>
+
+            <div v-show="isRegister" class="mb-4">
+              <label class="block mb-2 text-sm font-bold" :class="errorMsg.confirmPass ? 'text-red-400' : 'text-gray-700'"
+                for="confirmPassword">
+                Confirm Password
+              </label>
+              <input
+                class="w-full px-3 py-2 mb-3 leading-tight border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                :class="errorMsg.confirmPass ? 'border-red-400' : 'text-gray-700'" id="confirmPassword" type="password"
+                v-model="confirmPass" placeholder="******************">
+
+              <p v-show="errorMsg.confirmPass" class="text-red-400">{{ errorMsg.confirmPass }}</p>
+            </div>
+
+            <!-- Form submission buttons -->
+            <div class="flex items-center justify-between mt-2">
+              <button @click.prevent="signIn" class="px-4 py-2 font-bold focus:outline-none focus:shadow-outline"
+                :class="!isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
+                type="button">
+                Sign In
+              </button>
+
+              <span class="font-bold text-gray-700">OR</span>
+
+              <button class="inline-block px-4 py-2 font-bold"
+                :class="isRegister ? 'text-white bg-orange-600 rounded hover:bg-orange-700' : 'text-orange-600 align-baseline hover:text-orange-800'"
+                @click.prevent="register">
+                Register
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- Welcome Section for valid user -->
+    <section v-show="isAuth">
+      <div
+        class="flex items-center justify-center h-screen p-5 mx-auto rounded-lg bg-gradient-to-r from-rose-100 to-teal-100">
+        <div class="flex flex-col items-center p-32 bg-white/70 rounded-3xl">
+          <h2 class="font-bold text-center text-7xl">
+            Welcome!
+            <span class="text-green-600">
+              {{ data.username }}
+            </span>,
+
+            <span class="flex justify-center my-4">
+              To
+            </span>
+
+            <span class="inline-flex px-3 pt-2 pb-4 bg-yellow-400 rounded-lg">
+              The Osthir 🎦 Theater
+            </span>
+          </h2>
+
+          <button
+            class="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white border border-yellow-400 rounded mt-14 hover:bg-white group"
+            @click="logout">
+
+            <span
+              class="w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+            <span
+              class="relative flex w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
+              Logout
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-6 h-6 ml-3">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+              </svg>
+
+            </span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+    <p class="absolute inset-x-0 bottom-0 py-2 font-bold text-center text-white bg-black/60">
+      &copy;2023 Osthir ITC. All rights reserved.
+    </p>
+  </div>
 </template>
 <style scoped></style>
